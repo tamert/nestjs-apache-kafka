@@ -7,7 +7,7 @@ export class ThorController {
     Validate(@Payload() message){
         return {
             "request": message.value,
-            "thor" : "al sana elma"
+            "thor" : "Yes I have. Here's an apple for you"
         };
     }
 }

@@ -22,6 +22,6 @@ export class LokiController implements OnModuleInit {
 
     @Get()
     checkout() {
-        return this.client.send('kang', {request: "bana elma verir misin?"});
+        return this.client.send('kang', {request: "Hey bro can you give me an apple?"});
     }
 }

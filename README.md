@@ -1,5 +1,12 @@
 # NestJs + Apache Kafka + Postgres
 
+![Screenshot](image.jpg)
+
+1. Loki asks Kang for an apple
+2. Kang doesn't have an apple so he asks Thor too.
+3. Thor gives an apple to Kang
+4. Kang gives that apple to Loki
+
 ```
 127.0.0.1 host.docker.internal
 ```

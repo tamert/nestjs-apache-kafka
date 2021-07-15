@@ -23,7 +23,7 @@ export class KangController implements OnModuleInit {
     consumePayment(@Payload() message) {
         return this.client.send(
             'thor',
-            {kang: 'lokiye elma lazımmış verebilir misin?', loki: message.value.request},
+            {kang: 'Loki needs an apple, can you give it to me?', loki: message.value.request},
         )
     }
 }
