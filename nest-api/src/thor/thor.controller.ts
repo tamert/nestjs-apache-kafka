@@ -6,8 +6,8 @@ export class ThorController {
     @MessagePattern('thor')
     Validate(@Payload() message){
         return {
-            "request": message,
-            "response" : "al sana elma"
+            "request": message.value,
+            "thor" : "al sana elma"
         };
     }
 }

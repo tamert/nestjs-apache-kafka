@@ -1,34 +1,31 @@
-import { Controller, Inject, OnModuleInit } from '@nestjs/common';
-import { ClientKafka, MessagePattern, Payload } from '@nestjs/microservices';
+import {Controller, Inject, OnModuleInit} from '@nestjs/common';
+import {ClientKafka, MessagePattern, Payload} from '@nestjs/microservices';
 
 //rxjs
 //request-reply | request-response
 @Controller()
 export class KangController implements OnModuleInit {
-  constructor(
-    @Inject('KAFKA_SERVICE')
-    private client: ClientKafka,
-  ) {
-  }
+    constructor(
+        @Inject('KAFKA_SERVICE')
+        private client: ClientKafka,
+    ) {
+    }
 
-  async onModuleInit() {
-    this.client.subscribeToResponseOf('thor');
-  }
+    async onModuleInit() {
+        const requestPatterns = ['thor'];
+        for (const pattern of requestPatterns) {
+            this.client.subscribeToResponseOf(pattern);
+            await this.client.connect();
+        }
+    }
 
-  @MessagePattern('kang')
-  async consumePayment(@Payload() message) {
-
-
-    // Thor'dan alıp vereceğim
-    await this.client.send(
-      'thor',
-      JSON.stringify({ request: 'elma lazım verebilir misin?', loki: message.value.request }),
-    ).subscribe(reply => {
-      console.log(reply);
-      return reply;
-    });
-
-  }
+    @MessagePattern('kang')
+    consumePayment(@Payload() message) {
+        return this.client.send(
+            'thor',
+            {kang: 'lokiye elma lazımmış verebilir misin?', loki: message.value.request},
+        )
+    }
 }
 
 

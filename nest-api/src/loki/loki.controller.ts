@@ -1,29 +1,27 @@
-import { Controller, Get, Inject, OnModuleInit } from '@nestjs/common';
-import { ClientKafka } from '@nestjs/microservices';
-import { Producer } from '@nestjs/microservices/external/kafka.interface';
+import {Controller, Get, Inject, OnModuleInit} from '@nestjs/common';
+import {ClientKafka} from '@nestjs/microservices';
+import {Producer} from '@nestjs/microservices/external/kafka.interface';
 
 @Controller('checkout')
 export class LokiController implements OnModuleInit {
-  private kafkaProducer: Producer;
+    private producer: Producer;
 
-  constructor(
-    @Inject('KAFKA_SERVICE')
-    private clientKafka: ClientKafka,
-  ) {
-  }
+    constructor(
+        @Inject('KAFKA_SERVICE')
+        private client: ClientKafka,
+    ) {
+    }
 
-  async onModuleInit() {
-    this.clientKafka.subscribeToResponseOf('kang');
-    this.kafkaProducer = await this.clientKafka.connect();
-  }
+    async onModuleInit() {
+        const requestPatterns = ['kang'];
+        for (const pattern of requestPatterns) {
+            this.client.subscribeToResponseOf(pattern);
+            await this.client.connect();
+        }
+    }
 
-  @Get()
-  async checkout() {
-    return await this.kafkaProducer.send({
-      topic: 'kang',
-      messages: [
-        { key: Math.random() + '', value: JSON.stringify({ request: "bana elma verir misin?" }) },
-      ],
-    });
-  }
+    @Get()
+    checkout() {
+        return this.client.send('kang', {request: "bana elma verir misin?"});
+    }
 }
