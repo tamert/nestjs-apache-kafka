@@ -1,0 +1,9 @@
+query {
+    checkout {
+        request {
+            loki
+            kang
+        },
+        thor
+    }
+}

@@ -7,6 +7,8 @@ import { LokiController } from './loki/loki.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { KangController } from './kang/kang.controller';
 import { ThorController } from './thor/thor.controller';
+import { LokiResolver } from './loki/loki.resolver';
+import {GraphQLModule} from "@nestjs/graphql";
 
 @Module({
   imports: [
@@ -21,7 +23,16 @@ import { ThorController } from './thor/thor.controller';
       synchronize: process.env.NODE_ENV !== 'prod',
       autoLoadEntities: true,
     }),
-    TypeOrmModule.forFeature([]),
+    //TypeOrmModule.forFeature([]),
+    GraphQLModule.forRoot({
+      installSubscriptionHandlers: true,
+      playground: true,
+      debug: false,
+      introspection: true,
+      autoSchemaFile: './schema.gql',
+      sortSchema: true,
+      context: ({ req }) => ({ ...req }),
+    }),
     ClientsModule.register([
       {
         name: 'KAFKA_SERVICE',
@@ -38,6 +49,6 @@ import { ThorController } from './thor/thor.controller';
     ]),
   ],
   controllers: [AppController, LokiController, KangController, ThorController],
-  providers: [AppService],
+  providers: [AppService, LokiResolver],
 })
 export class AppModule {}

@@ -1,8 +1,8 @@
-FROM node:12.14.0-alpine3.11
+FROM node:14.18.1-alpine3.11
 
 RUN apk add --no-cache bash
 
-RUN npm i -g @nestjs/cli@7.4.1
+RUN npm i -g @nestjs/cli@8.1.1
 
 USER node
 
