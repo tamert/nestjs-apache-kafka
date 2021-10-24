@@ -9,10 +9,12 @@ import { KangController } from './kang/kang.controller';
 import { ThorController } from './thor/thor.controller';
 import { LokiResolver } from './loki/loki.resolver';
 import {GraphQLModule} from "@nestjs/graphql";
+import {HttpModule} from "@nestjs/axios";
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    HttpModule,
     TypeOrmModule.forRoot({
       type: process.env.TYPEORM_CONNECTION as any,
       host: process.env.TYPEORM_HOST,
